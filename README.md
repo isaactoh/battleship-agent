@@ -16,7 +16,7 @@ For each turn, players can choose a tile that has not been played before, and th
 
 The game ends when all ships are sunk.
 
-## DFS Agent
+## Search Agent
 
 Starting from the center of the board, the agent searches diagonally adjacent tiles until it gets a hit, then searches adjacent tiles to find the rest of the ship.
 
