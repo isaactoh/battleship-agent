@@ -37,6 +37,7 @@ class Battleship:
 
         self.ship_sizes = {}
         self.ship_hits = {}
+        self.moves = 0
 
         for ship_id, ship in enumerate(placements, start=1):
 
@@ -66,21 +67,21 @@ class Battleship:
             for row, col in ship:
                 self.board[row][col] = ship_id
 
-    def valid_move(self, row, column):
+    def is_valid_move(self, row, col):
         return (
             0 <= row < self.rows
-            and 0 <= column < self.columns
-            and self.exposed_board[row][column] == "-"
+            and 0 <= col < self.columns
+            and self.exposed_board[row][col] == "-"
         )
 
-    def play(self, row, column):
-        if not self.valid_move(row, column):
-            print(f"Invalid move: ({row}, {column})")
+    def play(self, row, col):
+        if not self.is_valid_move(row, col):
+            print(f"Invalid move: ({row}, {col})")
             return None
 
         self.moves += 1
 
-        ship_id = self.board[row][column]
+        ship_id = self.board[row][col]
 
         if ship_id != 0:
             self.ship_hits[ship_id] += 1
@@ -100,15 +101,13 @@ class Battleship:
 
                 print(f"Hit! Ship {ship_id} sunk!")
             else:
-                self.exposed_board[row][column] = "X"
+                self.exposed_board[row][col] = "X"
                 print(f"Hit!")
 
-            self.display_board()
             return True
 
-        self.exposed_board[row][column] = "O"
+        self.exposed_board[row][col] = "O"
         print("Miss!")
-        self.display_board()
         return False
 
     

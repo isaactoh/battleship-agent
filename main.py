@@ -1,22 +1,23 @@
 from battleship import Battleship
+from rand_agent import RandomAgent
+
 
 def main():
-    game = Battleship()
-    game.display_board()
+    board = Battleship()
 
-    game.place_ships([
-        [(0,0), (0,1), (0,2)],
-        [(5,5), (6,5)],
-        [(3,6), (3,7), (3,8), (3,9)]
-    ])
+    placements = [
+        [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)],
+        [(2, 0), (3, 0), (4, 0), (5, 0)],
+        [(7, 2), (7, 3), (7, 4)],
+    ]
 
-    while not game.is_game_over():
-        print("Enter Next Move", flush=True)
-        row = int(input("Row: "))
-        col = int(input("Column: "))
-        game.play(row, col)
+    board.place_ships(placements)
 
-    print(f"Game won with {game.moves} moves")
+    board.display_board()
+
+    agent = RandomAgent(board)
+    agent.play()
+
 
 if __name__ == "__main__":
     main()
