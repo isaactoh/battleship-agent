@@ -83,32 +83,35 @@ class Battleship:
 
         ship_id = self.board[row][col]
 
-        if ship_id != 0:
-            self.ship_hits[ship_id] += 1
+        if ship_id == 0:
+            self.exposed_board[row][col] = "0"
+            print("Miss!")
+            return (False, False, [])
 
-            # check if ship is sunk
-            sunk = (
-                self.ship_hits[ship_id]
-                == self.ship_sizes[ship_id]
-            )
+        self.ship_hits[ship_id] += 1
 
-            if sunk:
-                # reveal all tiles belonging to sunken ship
-                for r in range(self.rows):
-                    for c in range(self.columns):
-                        if self.board[r][c] == ship_id:
-                            self.exposed_board[r][c] = str(ship_id)
+        # check if ship is sunk
+        sunk = (
+            self.ship_hits[ship_id]
+            == self.ship_sizes[ship_id]
+        )
 
-                print(f"Hit! Ship {ship_id} sunk!")
-            else:
-                self.exposed_board[row][col] = "X"
-                print(f"Hit!")
+        sunk_tiles = []        
 
-            return True
+        if sunk:
+            for r in range(self.rows):
+                for c in range(self.columns):
+                    if self.board[r][c] == ship_id:
+                        sunk_tiles.append((r,c))
+                        # reveal all tiles belonging to sunken ship
+                        self.exposed_board[r][c] = str(ship_id)
 
-        self.exposed_board[row][col] = "O"
-        print("Miss!")
-        return False
+            print(f"Hit! Ship {ship_id} sunk!")
+        else:
+            self.exposed_board[row][col] = "X"
+            print(f"Hit!")
+
+        return (True, sunk, sunk_tiles)
 
     
     def display_board(self, show_ships=False):
